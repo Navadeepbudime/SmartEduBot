@@ -1,0 +1,149 @@
+/* General styles for the quiz container */
+.quiz-container {
+    max-width: 600px;
+    margin: 0 auto;
+    margin-top: 10%;
+    padding: 20px;
+    text-align: enter;
+    background-color: #092635; /* Dark background */
+    border-radius: 10px;
+    color: #9EC8B9; /* Light text color for contrast */
+}
+body{
+    background-color: #092635;
+}
+/* Language selection section */
+.language-selection h2 {
+    padding-left:120px ;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #9EC8B9; /* Light text color */
+}
+
+.language-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.language-buttons button {
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #092635; /* Dark text */
+    background-color: #5C8374; /* Muted green button */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.language-buttons button:hover {
+    background-color: #1B4242; /* Darker teal on hover */
+}
+
+/* Question section */
+.question-section h2 {
+    margin-bottom: 20px;
+    font-size: 22px;
+    color: #9EC8B9; /* Light text color */
+}
+
+.options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.options-container button {
+    padding: 12px 20px;
+    font-size: 16px;
+    color: #092635; /* Dark text */
+    background-color: #5C8374; /* Muted green button */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.options-container button:hover {
+    background-color: #1B4242; /* Darker teal on hover */
+}
+
+/* Score section */
+.score-section {
+    margin-top: 20px;
+}
+
+.score-section h2 {
+    font-size: 24px;
+    color: #9EC8B9; /* Light text color */
+    margin-bottom: 20px;
+}
+
+.score-section button {
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #092635; /* Dark text */
+    background-color: #5C8374; /* Muted green button */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 5px;
+}
+
+.score-section button:hover {
+    background-color: #1B4242; /* Darker teal on hover */
+}
+
+/* Back to home button */
+.score-section button:nth-child(2) {
+    background-color: #9EC8B9; /* Soft mint for contrast */
+}
+
+.score-section button:nth-child(2):hover {
+    background-color: #5C8374; /* Muted green on hover */
+}
+
+/* Review section */
+.answers-review {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.answer-item {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #5C8374; /* Muted green border */
+    border-radius: 5px;
+    background-color: #1B4242; /* Dark teal background */
+}
+
+.answer-item p {
+    margin: 5px 0;
+    color: #9EC8B9; /* Light text color */
+}
+
+.correct {
+    color: #9EC8B9; /* Soft mint for correct answers */
+    font-weight: bold;
+}
+
+.incorrect {
+    color: #e57373; /* Light red for incorrect answers */
+    font-weight: bold;
+}
+
+.score-section ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .score-section li {
+    background: #f9f9f9;
+    margin: 10px 0;
+    padding: 10px;
+    border-left: 5px solid #007bff;
+  }

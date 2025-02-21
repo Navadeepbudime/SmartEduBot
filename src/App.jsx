@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
+import axios from "axios";
 import { FaHistory, FaBook, FaPlus } from "react-icons/fa";
+import { IconBoxPadding } from "@tabler/icons-react";
+import { useNavigate } from "react-router-dom";
+import chatIcon from ".//icon.png";
 
 const courses = [
   { name: "Mathematics", description: "Learn algebra, geometry, and calculus." },
@@ -23,12 +27,13 @@ const ChatbotApp = () => {
   const [showCourses, setShowCourses] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState(null);
   const messagesEndRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [currentChat]);
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (inputValue.trim()) {
       const userMessage = { text: inputValue, sender: "user" };
       const updatedChat = {
@@ -38,14 +43,43 @@ const ChatbotApp = () => {
       setChats(chats.map(chat => (chat.id === currentChat.id ? updatedChat : chat)));
       setCurrentChat(updatedChat);
       setInputValue("");
-
-      setTimeout(() => {
-        const botMessage = { text: getBotResponse(inputValue), sender: "bot" };
+  
+      try {
+        console.log("Sending request to Gemini API...");
+        const response = await axios.post(
+          "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent",
+          {
+            contents: [{ parts: [{ text: inputValue }] }]
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            params: {
+              key: "AIzaSyDfaw8qdb-mopTtFBcCy0ec8kuldAJtsts",
+            }
+          }
+        );
+  
+        console.log("Gemini API response:", response.data);
+  
+        const botMessage = {
+          text: response.data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't process your request.",
+          sender: "bot"
+        };
+  
         setChats(prevChats => prevChats.map(chat => 
           chat.id === currentChat.id ? { ...chat, messages: [...chat.messages, botMessage] } : chat
         ));
         setCurrentChat(prevChat => ({ ...prevChat, messages: [...prevChat.messages, botMessage] }));
-      }, 1000);
+      } catch (error) {
+        console.error("Error fetching Gemini response:", error.response ? error.response.data : error.message);
+        const botMessage = { text: "Sorry, I couldn't process your request. Please try again.", sender: "bot" };
+        setChats(prevChats => prevChats.map(chat => 
+          chat.id === currentChat.id ? { ...chat, messages: [...chat.messages, botMessage] } : chat
+        ));
+        setCurrentChat(prevChat => ({ ...prevChat, messages: [...prevChat.messages, botMessage] }));
+      }
     }
   };
 
@@ -59,9 +93,13 @@ const ChatbotApp = () => {
     }
   };
 
+  const handleStartQuiz = () => {
+    navigate("/quiz");
+  };
+
   return (
     <div className="container">
-      {/* History Sidebar */}
+      
       <div className={`sidebar left ${showHistory ? "open" : ""}`}>
         <h2>Chat History</h2>
         <button className="new-chat-btn" onClick={() => {
@@ -82,7 +120,7 @@ const ChatbotApp = () => {
         ))}
       </div>
 
-      {/* Main Content */}
+      
       <div className="main-content">
         {selectedCourse ? (
           <div className="course-details">
@@ -92,6 +130,10 @@ const ChatbotApp = () => {
           </div>
         ) : (
           <div className="chat-window expanded">
+            <div className="chat-header">
+              <img src={chatIcon} alt="Chat Icon" className="chat-icon" />
+              <span className="chat-header-text">Smart Edu Bot</span>
+            </div>
             <div className="messages">
               {currentChat.messages.map((msg, index) => (
                 <div key={index} className={`message ${msg.sender}`}>
@@ -109,12 +151,13 @@ const ChatbotApp = () => {
                 onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
               />
               <button onClick={handleSendMessage}>Send</button>
+              <button onClick={handleStartQuiz} className="start-quiz-btn">Start Quiz</button>
             </div>
           </div>
         )}
       </div>
 
-      {/* Courses Sidebar */}
+      
       <div className={`sidebar right ${showCourses ? "open" : ""}`}>
         <h2>Available Courses</h2>
         <ul>
@@ -124,7 +167,7 @@ const ChatbotApp = () => {
         </ul>
       </div>
 
-      {/* Sidebar Toggle Buttons */}
+      
       <button className="toggle-btn left" onClick={() => setShowHistory(!showHistory)}>
         <FaHistory />
       </button>
