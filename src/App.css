@@ -1,0 +1,172 @@
+.container {
+  display: flex;
+  height: 100vh;
+  background-color: #f4f4f4;
+}
+
+.sidebar {
+  width: 250px;
+  height: 100%;
+  background: #2c3e50;
+  color: white;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  transition: transform 0.3s ease-in-out;
+}
+
+.left {
+  left: -250px;
+}
+
+.right {
+  right: -250px;
+}
+
+.sidebar.open.left {
+  transform: translateX(250px);
+}
+
+.sidebar.open.right {
+  transform: translateX(-250px);
+}
+
+h2 {
+  margin-bottom: 15px;
+  font-size: 20px;
+}
+
+.new-chat-btn {
+  background-color: #3498db;
+  color: white;
+  padding: 10px;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.history-item {
+  background-color: #34495e;
+  padding: 10px;
+  margin: 5px 0;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.history-item.active {
+  background-color: #1abc9c;
+}
+
+.main-content {
+  flex: 1;
+  margin-left: 250px;
+  margin-right: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chat-window {
+  width: 70%;
+  max-width: 800px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  height: 500px;
+}
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+
+.message {
+  padding: 10px;
+  border-radius: 5px;
+  max-width: 70%;
+  margin-bottom: 10px;
+}
+
+.message.user {
+  background-color: #007bff;
+  color: white;
+  align-self: flex-end;
+}
+
+.message.bot {
+  background-color: #e9ecef;
+  color: black;
+  align-self: flex-start;
+}
+
+.input-area {
+  display: flex;
+}
+
+.input-area input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.input-area button {
+  padding: 10px;
+  margin-left: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.input-area button:hover {
+  background-color: #0056b3;
+}
+
+.toggle-btn {
+  position: fixed;
+  top: 20px;
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+}
+
+.toggle-btn.left {
+  left: 10px;
+}
+
+.toggle-btn.right {
+  right: 10px;
+}
+
+.course-details {
+  text-align: center;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul li {
+  background-color: #34495e;
+  padding: 10px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+ul li:hover {
+  background-color: #1abc9c;
+}

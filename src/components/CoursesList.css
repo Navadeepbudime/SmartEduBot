@@ -1,0 +1,27 @@
+/* Sidebar Course List */
+.courses-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .course-item {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background 0.3s ease-in-out;
+    color: white;
+    font-size: 16px;
+  }
+  
+  .course-item:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
+  .course-icon {
+    margin-right: 10px;
+    font-size: 20px;
+  }
+  
