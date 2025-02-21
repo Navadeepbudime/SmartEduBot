@@ -1,111 +1,143 @@
-.container {
-  display: flex;
-  height: 100vh;
+/* General Styling */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
   background-color: #f4f4f4;
 }
 
-.sidebar {
-  width: 250px;
-  height: 100%;
-  background: #2c3e50;
-  color: white;
-  padding: 20px;
-  position: fixed;
-  top: 0;
-  transition: transform 0.3s ease-in-out;
+.container {
+  display: flex;
+  height: 100vh;
 }
 
-.left {
+/* Sidebar Styling */
+.sidebar {
+  width: 250px;
+  background-color: #2c3e50;
+  color: white;
+  position: fixed;
+  height: 100%;
+  overflow-y: auto;
+  transition: transform 0.3s ease-in-out;
+  padding: 20px;
+  box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar.left {
   left: -250px;
 }
 
-.right {
+.sidebar.right {
   right: -250px;
 }
 
-.sidebar.open.left {
+.sidebar.open {
   transform: translateX(250px);
 }
 
-.sidebar.open.right {
-  transform: translateX(-250px);
-}
-
-h2 {
-  margin-bottom: 15px;
+.sidebar h2 {
   font-size: 20px;
+  margin-bottom: 15px;
+  text-align: center;
 }
 
-.new-chat-btn {
-  background-color: #3498db;
-  color: white;
-  padding: 10px;
-  width: 100%;
-  border: none;
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  padding: 12px;
+  margin: 5px 0;
   cursor: pointer;
-  margin-bottom: 10px;
+  background: #34495e;
+  border-radius: 5px;
+  transition: background 0.3s ease;
 }
 
+.sidebar ul li:hover {
+  background: #1abc9c;
+}
+
+/* Chat History */
 .history-item {
-  background-color: #34495e;
   padding: 10px;
+  background-color: #34495e;
   margin: 5px 0;
   cursor: pointer;
   border-radius: 5px;
+  transition: background 0.3s ease;
 }
 
 .history-item.active {
   background-color: #1abc9c;
 }
 
+.history-item:hover {
+  background: #16a085;
+}
+
+/* Main Chat Area */
 .main-content {
   flex: 1;
   margin-left: 250px;
   margin-right: 250px;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
 
+/* Chat Window */
 .chat-window {
-  width: 70%;
-  max-width: 800px;
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 600px;
+  height: 80vh;
   display: flex;
   flex-direction: column;
-  height: 500px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  padding: 15px;
 }
 
 .messages {
   flex: 1;
   overflow-y: auto;
-  margin-bottom: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
 }
 
 .message {
-  padding: 10px;
-  border-radius: 5px;
   max-width: 70%;
-  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 5px 0;
+  font-size: 14px;
+  word-wrap: break-word;
 }
 
 .message.user {
   background-color: #007bff;
   color: white;
   align-self: flex-end;
+  text-align: right;
 }
 
 .message.bot {
   background-color: #e9ecef;
   color: black;
   align-self: flex-start;
+  text-align: left;
 }
 
+/* Input Area */
 .input-area {
   display: flex;
+  padding: 10px;
+  background: #f9f9f9;
+  border-top: 1px solid #ddd;
 }
 
 .input-area input {
@@ -113,10 +145,11 @@ h2 {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  font-size: 14px;
 }
 
 .input-area button {
-  padding: 10px;
+  padding: 10px 15px;
   margin-left: 10px;
   background-color: #007bff;
   color: white;
@@ -129,17 +162,17 @@ h2 {
   background-color: #0056b3;
 }
 
+/* Sidebar Toggle Buttons */
 .toggle-btn {
   position: fixed;
   top: 20px;
-  background: #3498db;
+  background: #007bff;
   color: white;
   border: none;
   padding: 10px;
   border-radius: 50%;
   cursor: pointer;
-  width: 40px;
-  height: 40px;
+  font-size: 20px;
 }
 
 .toggle-btn.left {
@@ -150,23 +183,42 @@ h2 {
   right: 10px;
 }
 
+/* Course Details */
 .course-details {
   text-align: center;
+  padding: 20px;
 }
 
-ul {
-  list-style: none;
-  padding: 0;
-}
-
-ul li {
-  background-color: #34495e;
-  padding: 10px;
-  margin-bottom: 5px;
+.course-details button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background: #007bff;
+  color: white;
+  border: none;
   cursor: pointer;
   border-radius: 5px;
 }
 
-ul li:hover {
-  background-color: #1abc9c;
+.course-details button:hover {
+  background: #0056b3;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .sidebar.left.open {
+    transform: translateX(250px);
+  }
+
+  .sidebar.right.open {
+    transform: translateX(-250px);
+  }
+
+  .toggle-btn {
+    top: 60px;
+  }
 }

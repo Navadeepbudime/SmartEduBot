@@ -16,8 +16,8 @@ const courses = [
 ];
 
 const ChatbotApp = () => {
-  const [chats, setChats] = useState([]);
-  const [currentChat, setCurrentChat] = useState(null);
+  const [chats, setChats] = useState([{ id: Date.now(), messages: [] }]);
+  const [currentChat, setCurrentChat] = useState(chats[0]);
   const [inputValue, setInputValue] = useState("");
   const [showHistory, setShowHistory] = useState(false);
   const [showCourses, setShowCourses] = useState(false);
@@ -28,29 +28,24 @@ const ChatbotApp = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [currentChat]);
 
-  const startNewChat = () => {
-    const newChat = { id: Date.now(), messages: [] };
-    setChats([newChat, ...chats]);
-    setCurrentChat(newChat);
-  };
-
   const handleSendMessage = () => {
-    if (inputValue.trim() && currentChat) {
+    if (inputValue.trim()) {
       const userMessage = { text: inputValue, sender: "user" };
       const updatedChat = {
         ...currentChat,
         messages: [...currentChat.messages, userMessage],
       };
       setChats(chats.map(chat => (chat.id === currentChat.id ? updatedChat : chat)));
+      setCurrentChat(updatedChat);
+      setInputValue("");
+
       setTimeout(() => {
         const botMessage = { text: getBotResponse(inputValue), sender: "bot" };
-        const updatedChatWithBot = {
-          ...updatedChat,
-          messages: [...updatedChat.messages, botMessage],
-        };
-        setChats(chats.map(chat => (chat.id === currentChat.id ? updatedChatWithBot : chat)));
+        setChats(prevChats => prevChats.map(chat => 
+          chat.id === currentChat.id ? { ...chat, messages: [...chat.messages, botMessage] } : chat
+        ));
+        setCurrentChat(prevChat => ({ ...prevChat, messages: [...prevChat.messages, botMessage] }));
       }, 1000);
-      setInputValue("");
     }
   };
 
@@ -69,7 +64,11 @@ const ChatbotApp = () => {
       {/* History Sidebar */}
       <div className={`sidebar left ${showHistory ? "open" : ""}`}>
         <h2>Chat History</h2>
-        <button className="new-chat-btn" onClick={startNewChat}>
+        <button className="new-chat-btn" onClick={() => {
+          const newChat = { id: Date.now(), messages: [] };
+          setChats([newChat, ...chats]);
+          setCurrentChat(newChat);
+        }}>
           <FaPlus /> New Chat
         </button>
         {chats.map((chat, index) => (
@@ -91,12 +90,12 @@ const ChatbotApp = () => {
             <p>{selectedCourse.description}</p>
             <button onClick={() => setSelectedCourse(null)}>Back to Chat</button>
           </div>
-        ) : currentChat ? (
+        ) : (
           <div className="chat-window expanded">
             <div className="messages">
               {currentChat.messages.map((msg, index) => (
                 <div key={index} className={`message ${msg.sender}`}>
-                  <strong>{msg.sender}:</strong> {msg.text}
+                  {msg.text}
                 </div>
               ))}
               <div ref={messagesEndRef} />
@@ -107,13 +106,11 @@ const ChatbotApp = () => {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="Type your message..."
-                onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
+                onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
               />
               <button onClick={handleSendMessage}>Send</button>
             </div>
           </div>
-        ) : (
-          <div className="start-chat-message">Click 'New Chat' to start a conversation.</div>
         )}
       </div>
 
